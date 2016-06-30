@@ -1,0 +1,292 @@
+<div class="dashboard grey lighten-3" ng-controller="HistoryController">
+  <div class="row no-gutter">
+      
+      <div ng-show="data.detailBid._id != undefined" style="text-align:center" class="well white">
+        <form class="form-inline">
+          <fieldset>
+            <legend>{{data.detailBid.originCity | uppercase}} to {{data.detailBid.destinationCity | uppercase}}</legend>
+            <legend ng-if="data.detailBid.bidplaced == 'error'">
+              <span style="color:red;font-size:24px"> BID NOT PLACED </span>
+            </legend>
+            <br/>
+            Main Route: {{data.detailBid.dbFrom | uppercase}} to {{data.detailBid.dbTo | uppercase}}
+            <span ng-if="data.detailBid.bidplaced == 'placedBid'">
+              <br />
+              Submitted at: {{data.detailBid.endDateTime}}
+            </span>
+            <br />
+              Run time: {{data.detailBid.submissionTime}}
+  
+  <div class="col-lg-16">
+
+              <div class="p-20 clearfix">
+        
+              <div class="p-20 no-p-t">
+        
+                <div class="row gutter-14 kpi-dashboard">
+                  
+                  <div class="col-md-4">
+              <div class="card no-margin">
+        
+                <div class="table-responsive white">
+                  <h3 class="table-title p-20">Trip Info</h3>
+                    <table class="table table-full m-b-0" id="table-area-1">
+                <thead>
+                <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+                  <th>From</th>
+                  <th>To</th>
+                </tr>
+                </thead>
+                <tbody style="text-align:left">
+                  <tr>
+                    <td>{{data.detailBid.originCity}}</td>
+                    <td>{{data.detailBid.destinationCity}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{data.detailBid.originState}}</td>
+                    <td>{{data.detailBid.destinationState}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{data.detailBid.originZip}}</td>
+                    <td>{{data.detailBid.destinationZip}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Distance</b></td>
+                    <td>{{data.detailBid.distance}} mi</td>
+                  </tr>
+                </tbody>
+              </table>
+                </div>
+              </div>
+            </div>
+        
+            <div class="col-md-4">
+              <div class="card no-margin">
+        
+                <div class="table-responsive white">
+                  <h3 class="table-title p-20">Pricing</h3>
+        
+                  <table class="table table-full m-b-0" id="table-area-1">
+                    <thead>
+                    <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+                      <th>Property</th>
+                      <th>Price</th>
+                    </tr>
+                    </thead>
+                    <tbody style="text-align:left">
+                      <tr>
+                        <td>Min Bid</td>
+                        <td>{{data.detailBid.bidmin | number: 2}}</td>
+                      </tr>
+                      <tr>
+                        <td>Max Bid</td>
+                        <td>{{data.detailBid.bidmax | number : 2}}</td>
+                      </tr>
+                      <tr>
+                        <td>Central Dispatch</td>
+                        <td>{{data.detailBid.prebid | number: 2}}</td>
+                      </tr>
+                      <tr>
+                        <td>Manual Bid Min</td>
+                        <td>
+                          <div class="form-group">
+                            <label class="sr-only" for="search-input">Set Price ($)</label>
+                            <input type="number" class="form-control" id="search-input" ng-model="data.detailBid.manualMinBid" placeholder="Set Min Bid" autofocus>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Manual Bid Max</td>
+                        <td>
+                          <div class="form-group">
+                            <label class="sr-only" for="search-input">Set Price ($)</label>
+                            <input type="number" class="form-control" id="search-input" ng-model="data.detailBid.manualMaxBid" placeholder="Set Max Bid" autofocus>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td>
+                          <button class="btn btn-success" ng-click="addBids()" >Update Manual Bids</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <div class="card no-margin">
+        
+                <div class="table-responsive white">
+                  <h3 class="table-title p-20">More Info</h3>
+        
+                  <table class="table table-full m-b-0" id="table-area-1">
+                    <thead>
+                    <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+                      <th>Property</th>
+                      <th>Value</th>
+                    </tr>
+                    </thead>
+                    <tbody style="text-align:left">
+                      <tr>
+                        <td>Type</td>
+                        <td>
+                          <span ng-if="data.detailBid.type == undefined">
+                            Not collected
+                          </span>
+                          {{data.detailBid.type}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Enclosed?</td>
+                        <td>
+                          <span ng-if="data.detailBid.enclosed == 'enclosed'">
+                            Yes
+                          </span>
+                          <span ng-if="data.detailBid.enclosed == 'not enclosed'">
+                            No
+                          </span>
+                          <span ng-if="data.detailBid.enclosed == undefined">
+                            Not collected
+                          </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Error:</td>
+                        <td>
+                          <span ng-if="data.detailBid.bidplaced == 'error'">
+                            {{data.detailBid.errorCommand}}
+                          </span>
+                          <span ng-if="data.detailBid.bidplaced == 'placedBid'">
+                            None                    
+                          </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><b>Url:</b></td>
+                        <td><a href="{{data.detailBid.url}}" target="_blank">Link</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <br />
+            <br />
+            
+                </div>
+                </div>
+                
+                
+                
+                  </fieldset>
+                </form>
+              </div>
+      
+      
+      <div class="table-responsive well no-padding white no-margin">
+        <h3 class="table-title">
+          Bid History {{bidHistory.length}}
+          <span style="align:right">
+            <button ng-click="showSubmitted()" class="btn btn-default">Submitted</button>
+            <button ng-click="showFailed()" class="btn btn-default">Failed</button>
+          </span>
+        </h3>
+        
+      <table class="table table-full m-b-0" id="table-area-1" fsm-big-data="data of routes take 30">
+        <thead>
+        <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+          <th>Date</th>
+          <th>Origin</th>
+          <th>Destination</th>
+          <th>Status</th>
+          <th>
+            <center>
+              Min Bid
+            </center>
+          </th>
+          <th>
+            <center>
+              Max Bid
+            </center>
+          </th>
+          <th>
+            <center>
+              Central Dispatch
+            </center>
+          </th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in bidHistory | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage" ng-click="toggleBid(item)">
+            <td>{{item.endDateTime}}</td>
+            <td>{{item.originCity}}, {{item.originState}}</td>
+            <td>{{item.destinationCity}}, {{item.destinationState}}</td>
+            <td>
+              <span ng-if="item.bidplaced == 'error'">
+                Error
+              </span>
+              <span ng-if="item.bidplaced == 'placedBid'">
+                Success
+              </span>
+            </td>
+            <td>
+              <center>
+                <span ng-if="item.bidplaced == 'error'"> 
+                  - 
+                </span>
+                {{ item.bidmin | number: 2}}
+              </center>
+            </td>
+            <td>
+              <center>
+                <span ng-if="item.bidplaced == 'error'"> 
+                  - 
+                </span>
+                {{ item.bidmax | number: 2}}
+              </center>
+            </td>
+            <td>
+              <center>
+                <span ng-if="item.bidplaced == 'error'"> 
+                  - 
+                </span>
+                {{ item.prebid | number: 2}}
+              </center>
+            </td>
+            <td class="text-left" ng-click="$event.stopPropagation()">
+              <button type="button" class="btn btn-link btn-round" data-title="View item" ng-click="toggleBid(item)"><i class="md md-search"></i></button></a>
+              <span ng-if="item.url != undefined">
+                <a href="{{item.url}}" target="blank"><button type="button" class="btn btn-link btn-round" data-title="View item" ng-click="toggleBid(item)"><i class="md md-link"></i></button></a>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <ul class="pagination">
+      <li><a href="" ng-click="firstPage()">&laquo;</a></li>
+        <li ng-repeat="n in getPageNumbers()" ng-class="{active: n == pagination.page}">
+        <a href="" ng-click="pagination.toPageId(n)">{{n + 1}}</a>
+        </li>
+        <li><a href="" ng-click="lastPage()">&raquo;</a></li>
+      </ul>
+    </div>
+    <!-- n in [] | range: pagination.numPages -->
+    
+
+  <div class="footer-buttons">
+    <!--<div class="btn btn-primary btn-round btn-lg m-r-10 btn-footer" ng-show="(data|filter:{selected: true}).length" ng-click="remove()"  data-title="Remove {{(data|filter:{selected: true}).length}} item(s)" bs-tooltip><i class="md md-delete"></i></div>-->
+    <div class="btn btn-default btn-round btn-lg m-r-10 btn-footer" scroll-to="top" ng-hide="scroll<100" data-title="Scroll to top" bs-tooltip><i class="md md-arrow-drop-up"></i></div>
+    <!--<div class="btn btn-primary btn-round btn-lg" ng-click="createItem()" data-title="New {{settings.singular}}" bs-tooltip><i class="md md-add"></i></div>-->
+  </div>
+      
+
+
+  </div>
+
+
+</div>

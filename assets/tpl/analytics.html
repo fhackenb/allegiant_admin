@@ -1,0 +1,140 @@
+<div class="dashboard grey lighten-3" ng-controller="AnalyticsController">
+  <div class="row no-gutter">
+      
+        <div ng-show="isLoaded" class="col-md-6">
+          <div class="table-responsive well no-padding white no-margin">
+            <h3 class="table-title">Overall Summary</h3>
+    
+          <table class="table table-full m-b-0" id="table-area-1" fsm-big-data="data of routes take 30">
+            <thead>
+            <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+              <th># Attempts</th>
+              <th># Submissions</th>
+              <th>Failure Pct</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{failureData.totalAttempts}}</td>
+                <td>{{failureData.totalSubmissions}}</td>
+                <td>{{failureData.failPct | number: 1}}%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-5">
+          From: 
+          <input type="text" ng-change="updatedRange()" class="form-control" ng-model="date.fromDate" data-autoclose="1" placeholder="From"
+                 data-min-date="5/31/2016" data-max-date="date.toDate" data-date-format="MM/dd/yyyy" bs-datepicker>
+        </div>
+        <div class="col-md-5">
+          To:
+          <input type="text" class="form-control" ng-model="date.toDate" data-autoclose="1" placeholder="To"
+                 data-min-date="5/31/2016" ng-change="updatedRange()" data-max-date="today" data-date-format="MM/dd/yyyy" bs-datepicker>
+        </div>
+      </div>
+      
+      <div ng-show="isLoaded" class="col-md-6">
+          <div class="table-responsive well no-padding white no-margin">
+            <h3 class="table-title">Failure Causes</h3>
+    
+          <table class="table table-full m-b-0" id="table-area-1" fsm-big-data="data of routes take 30">
+            <thead>
+            <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+              <th>Failure Type</th>
+              <th># Occurances</th>
+              <th>% of failures</th>
+              <th>Average time to fail</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="(key, item) in failureData.causes" ng-click="toggleBid(item)">
+                <td>{{key}}</td>
+                <td><center>{{item.count}}</center></td>
+                <td><center>{{item.percentage | number: 1}}</center></td>
+                <td>
+                  <center>
+                    <span ng-if="item.averageBidTime == 0">
+                      -
+                    </span>
+                    <span ng-if="item.averageBidTime != 0">
+                      {{item.averageBidTime | number: 0}} s
+                    </span>
+                  </center>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="card small">
+          <div class="blue lighten-2 p-10">
+            <h4 class="no-margin white-text w600">Bids By Day</h4>
+            <div class="p-10 p-t-30">
+              <div id="chart"></div>
+            </div>
+          </div>
+          
+          <div class="card-content p-10">
+            <div class="row">
+              <div class="col-md-6 text-center" style="border-right: 1px #F0F0F0 solid;">
+                <h3 class="no-margin w300">Bids/day</h3>
+              </div>
+              <div class="col-md-6 text-center">
+                <h3 class="no-margin w300">{{failureData.totalSubmissions/(days.length - 1) | number: 1}}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <div class="card small">
+          <div class="pink lighten-2 p-10">
+            <!--Failure Rate by Day-->
+            <h4 class="no-margin white-text w600">Failure Rate</h4>
+            <div class="p-10 p-t-30">
+              <div id="chart2"></div>
+            </div>
+          </div>
+          
+          <div class="card-content p-10">
+            <div class="row">
+              <div class="col-md-6 text-center" style="border-right: 1px #F0F0F0 solid;">
+                <h3 class="no-margin w300">Average Failure (%)</h3>
+              </div>
+              <div class="col-md-6 text-center">
+                <h3 class="no-margin w300">{{failureData.failPct | number: 1}}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-12">
+      <div class="card small bar-chart">
+        <div class="card-header">
+          <div class="card-title">Negative numbers are bids that were submitted too high<br>Positive numbers are bids that were submitted too low</div>
+        </div>
+        <div class="card-content">
+          <div id="barChart"></div>
+          <!--c3chart bindto-id="bar-chart">
+            <chart-column column-id="Data 3"
+                          column-values="130,-150,200,300,-200,100"
+                          column-type="bar"/>
+            <chart-column column-id="Data 2"
+                          column-values="130,100,140,200,150,50"
+                          column-type="bar"/>
+            <chart-column column-id="Data 1"
+                          column-values="30,200,100,400,150,250"
+                          column-type="bar"/>
+            <chart-colors color-pattern="{{color_pattern}}"/>
+          </c3chart-->
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>

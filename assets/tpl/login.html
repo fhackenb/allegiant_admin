@@ -1,0 +1,38 @@
+<div class="center">
+    <div ng-controller="LoginController" class="card bordered z-depth-2"  style="margin:0% auto; max-width:400px;">
+      <div class="card-header">
+        <div style="font-size:20px" class="brand-logo">
+          <div id="logo">
+            <div class="foot1"></div>
+            <div class="foot2"></div>
+            <div class="foot3"></div>
+            <div class="foot4"></div>
+          </div>
+          Allegiant
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="m-b-30">
+          <div class="card-title strong pink-text">Login</div>
+          <p class="card-title-desc">
+          </p>
+        </div>
+        <form class="form-floating">
+          <div class="form-group">
+            <label for="inputEmail" class="control-label">Username</label>
+            <input ng-model="user.username"type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="inputPassword" class="control-label">Password</label>
+            <input ng-model="user.login" type="password" class="form-control" id="inputPassword">
+          </div>
+        </form>
+      </div>
+      <div class="card-action clearfix">
+        <div class="pull-right">
+          <!--<button type="button" class="btn btn-link black-text">Forgot password</button>-->
+          <button ng-click="login()" type="button" class="btn btn-link black-text">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,74 @@
+<div class="dashboard grey lighten-3" ng-controller="RouteDetailController">
+  <h3 class="table-title">{{route.to | uppercase}} to {{route.from | uppercase}}</h3>
+  
+  <div class="col-sm-12 col-md-6">
+      <div class="card small load-chart">
+        <div class="card-header">
+          <div class="card-title">Route Failure</div>
+        </div>
+        <div class="card-content">
+          <div id="load-chart"></div>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive well no-padding white no-margin">
+        <h3 class="table-title">Failure Breakdown</h3>
+
+      <table class="table table-full m-b-60" id="table-area-1" fsm-big-data="data of routes take 30">
+        <thead>
+        <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+          <th>Failure Reason</th>
+          <th># Occurances</th>
+          <th>% Of failures</th>
+          <th>Average bid time</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(key, item) in failAnalytics">
+            <td>{{key}}</td>
+            <td>{{item.count}}</td>
+            <td>{{item.percentage}}%</td>
+            <td>{{item.averageBidTime | number}} s</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div>
+      
+      <div class="form-group">
+        Route Frequency:
+        <input type="number" size="2" min="0" max="48" class="form-control" id="search-input" ng-model="route.frequency" placeholder="Frequency" autofocus>
+        <button ng-click="submitFreq()">Submit</button>
+      </div>
+    </div>
+    
+
+<!--
+<div class="col-sm-12 col-md-6" id="tag-id">
+      <div class="card small donut-chart">
+        <div class="card-header">
+          <div class="card-title">Breakdown of Causes</div>
+        </div>
+        <div class="card-content">
+            {{causes}}
+          <c3chart bindto-id="donut-chart">
+            <chart-column ng-repeat="(key, value) in causes" column-id="{{key}}"
+                          column-values="{{value}}"
+                          column-type="donut"/>
+            
+            <chart-colors color-pattern="{{color_pattern}}"/>
+          </c3chart>
+        </div>
+      </div>
+    </div>
+    -->
+    
+    
+
+
+
+
+
+
+</div>

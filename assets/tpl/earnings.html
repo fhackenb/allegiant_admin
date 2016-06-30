@@ -1,0 +1,209 @@
+<div class="dashboard grey lighten-3" ng-controller="EarningsController">
+  <div class="row no-gutter">
+    
+    
+    <div class="table-responsive well no-padding white no-margin">
+      <h3 class="table-title">Dimensions</h3>
+      <table class="table table-full m-b-60" id="table-area-1" fsm-big-data="data of routes take 30">
+        <thead>
+        <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+          <th>Min Distance (mi)</th>
+          <th>Max Height (ft, in)</th>
+          <th>Max Width (ft, in)</th>
+          <th>Max Base (ft, in)</th>
+          <th>Max Length (ft, in)</th>
+          <th>Max Weight (lbs)</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input type="text" size="4" ng-model="pricingParams.minDist">
+              </input>
+            </td>
+            <td>
+              <input type="text" size="4" ng-model="pricingParams.maxHeightFt">
+              </input> ft
+              <input type="text" size="4" ng-model="pricingParams.maxHeightIn">
+              </input> in
+            </td>
+            <td>
+              <input type="text" size="4" ng-model="pricingParams.maxWidthFt">
+              </input> ft
+              <input type="text" size="4" ng-model="pricingParams.maxWidthIn">
+              </input> in
+            </td>
+            <td>
+              <input type="text" size="4" ng-model="pricingParams.maxBaseFt">
+              </input> ft
+              <input type="text" size="4" ng-model="pricingParams.maxBaseIn">
+              </input> in
+            </td>
+            <td>
+              <input type="text" size="4" ng-model="pricingParams.maxLengthFt">
+              </input> ft
+              <input type="text" size="4" ng-model="pricingParams.maxLengthIn">
+              </input> in
+            </td>
+            <td>
+              <input type="text" size="4" ng-model="pricingParams.maxWeight">
+              </input>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="6">
+              <button ng-click="saveConfigs()" class="btn btn-success" style="float:right"> Save </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="table-responsive well no-padding white no-margin">
+      <h3 class="table-title">Pricing Tiers</h3>
+      <table class="table table-full m-b-60" id="table-area-1" fsm-big-data="data of routes take 30">
+        <thead>
+        <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+          <th>Tier</th>
+          <th>Min Dist (mi)</th>
+          <th>Max Dist (mi)</th>
+          <th>Min Bid</th>
+          <th>Max Bid</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(index,tier) in tiers">
+            <td>
+              <span ng-if="index == 4">
+                 Default
+              </span>
+              <span ng-if="index != 4">
+                {{index}}
+              </span>
+            </td>
+            <td>
+              <input type="text" size="4" ng-model="tier.min">
+              </input>
+            </td>
+            <td>
+              <input type="text" size="4" ng-model="tier.max">
+              </input>
+            </td>
+            <td>
+              <input type="text" size="4" ng-model="tier.minBid">
+              </input>
+            </td>
+            <td>
+              <input type="text" size="4" ng-model="tier.maxBid">
+              </input>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <button ng-click="saveTiers()" class="btn btn-success" style="float:right"> Save </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="table-responsive well no-padding white no-margin">
+      <h3 class="table-title">Per Mile Pricing Configs</h3>
+      <table class="table table-full m-b-60" id="table-area-1" fsm-big-data="data of routes take 30">
+        <thead>
+        <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+          <th>Type</th>
+          <th>Min PPM ($)</th>
+          <th>Shipping Method</th>
+          <th>Operable</th>
+          <th>Vehicle Type</th>
+          <th>Allow Bids?</th>
+          <th>Remove</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="ppm in pricePerMile">
+            <td>
+              <select class="form-control" ng-model="ppm.type" placeholder="Bid type">
+                 <option ng-value="opt" ng-repeat="opt in bidTypes">{{ opt }}</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" size="4" ng-model="ppm.minPPM">
+              </input>
+            </td>
+            <td>
+                <select ng-model="ppm.shippingMethod" placeholder="Shipping Method">
+                  <option ng-value="opt" ng-repeat="opt in shippingOptions">{{ opt }}</option>
+                </select>
+            </td>
+            <td>
+                <select ng-model="ppm.vehicleOperable" placeholder="Running?">
+                  <option ng-value="opt" ng-repeat="opt in operableOptions">{{ opt }}</option>
+                </select>
+            </td>
+            <td>
+                <select ng-model="ppm.vehicle_type" placeholder="Vehicle Type">
+                  <option ng-value="opt" ng-repeat="opt in vehicleTypes">{{ opt }}</option>
+                </select>
+            </td>
+            <td>
+              <select ng-model="ppm.bidAllowed" placeholder="Allow Bid?">
+                <option ng-value="opt" ng-repeat="opt in bidAllowedOptions">{{ opt }}</option>
+              </select>
+            </td>
+            <td>
+              <button style="text-align:left" ng-click="removePPM(ppm)" class="btn btn-danger" style="float:right"> Remove </button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">
+              <button style="padding:10px" ng-click="newPPM()" class="btn btn-primary" style="float:right"> Add New </button>
+              <button ng-click="savePPM()" class="btn btn-success" style="float:right"> Save </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    
+    
+    <div class="table-responsive well no-padding white no-margin">
+      <h3 class="table-title">Keywords to not bid on</h3>
+      <table class="table table-full m-b-60" id="table-area-1" fsm-big-data="data of routes take 30">
+        <thead>
+        <tr fsm-sticky-header scroll-body="'#table-area-1'" scroll-stop="64">
+          <th>Word</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="word in keywords">
+            <td>
+              <input ng-model="word.word" type="text">
+              </input>
+            </td>
+            <td>
+              <button ng-click="removeKeyword(word)" class="btn btn-danger" style="float:left"> Remove </button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">
+              <button style="padding:10px" ng-click="newKeyword()" class="btn btn-primary" style="float:right"> Add New </button>
+              <button ng-click="saveKeywords()" class="btn btn-success" style="float:right"> Save </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    
+    <!-- footer -->
+    <div class="footer-buttons">
+      <div class="btn btn-default btn-round btn-lg m-r-10 btn-footer" scroll-to="top" ng-hide="scroll<100" data-title="Scroll to top" bs-tooltip><i class="md md-arrow-drop-up"></i></div>
+      <!--<div class="btn btn-primary btn-round btn-lg" ng-click="openNewSchedule()" data-title="New Schedule" bs-tooltip><i class="md md-add"></i></div>-->
+    </div>
+    
+    
+  </div>
+</div>
